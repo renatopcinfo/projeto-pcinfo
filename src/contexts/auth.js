@@ -109,16 +109,6 @@ function AuthProvider({ children }) {
     setUser(null);
   }
 
-  async function handleLoginDataGoogle(user) {
-    const newUser = {
-      uid: user.uid,
-      nome: user.nome,
-      email: user.value.user.email,
-      avatarUrl: null,
-    };
-    setUser(newUser);
-  }
-
   return (
     <AuthContext.Provider
       value={{
@@ -131,7 +121,6 @@ function AuthProvider({ children }) {
         loadingAuth,
         setUser,
         storageUser,
-        handleLoginDataGoogle,
       }}
     >
       {children}
