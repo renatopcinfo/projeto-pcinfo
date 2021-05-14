@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaGoogle } from 'react-icons/fa';
 
 import { AuthContext } from '../../contexts/auth';
+import firebase from '../../services/firebaseConnection';
 import './signin.css';
 import logo from '../../assets/logo.png';
 import { googleprovider } from '../../services/authMethods';
@@ -36,10 +37,6 @@ function SignIn() {
 
         <form onSubmit={handleSubmit}>
           <h1>Entrar</h1>
-          <button onClick={() => handleGoogleLogin(googleprovider)}>
-            <FaGoogle />
-            Fazer login com o Google
-          </button>
 
           <input
             type="text"
@@ -60,6 +57,14 @@ function SignIn() {
 
         <Link to="/register">Criar uma conta</Link>
       </div>
+      <button onClick={() => handleGoogleLogin(googleprovider)}>
+        <FaGoogle />
+        Fazer login com o Google
+      </button>
+      <button onClick={() => firebase.auth().signOut()}>
+        <FaGoogle />
+        Sair
+      </button>
     </div>
   );
 }
