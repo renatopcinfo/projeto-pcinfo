@@ -1,10 +1,20 @@
 import './dashboard.css';
 import { useState, useEffect } from 'react';
 
+import { toast } from 'react-toastify';
+
 import Header from '../../components/Header';
 import Title from '../../components/Title';
 import Modal from '../../components/Modal';
-import { FiMessageSquare, FiPlus, FiSearch, FiEdit2 } from 'react-icons/fi';
+import {
+  FiMessageSquare,
+  FiPlus,
+  FiSearch,
+  FiEdit2,
+  FiDelete,
+} from 'react-icons/fi';
+import { RiChatDeleteFill } from 'react-icons/ri';
+
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 
@@ -90,6 +100,21 @@ export default function Dashboard() {
   function togglePostModal(item) {
     setShowPostModal(!showPostModal); //troca true false
     setDetail(item);
+  }
+
+  async function handleDelItem(id) {
+    await firebase
+      .firestore()
+      .collection('chamados')
+      .doc(id)
+      .delete()
+      .then(() => {
+        toast.info('Chamado excluído com sucesso!');
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Ops, algo deu errado, tente novamente.');
+      });
   }
 
   if (loading) {
@@ -178,6 +203,13 @@ export default function Dashboard() {
                         >
                           <FiEdit2 color="#FFF" size={17} />
                         </Link>
+                        <button
+                          className="action"
+                          style={{ backgroundColor: '#dc2f02' }}
+                          onClick={() => handleDelItem(item.id)}
+                        >
+                          <RiChatDeleteFill color="#FFF" size={17} />
+                        </button>
                       </td>
                     </tr>
                   );
