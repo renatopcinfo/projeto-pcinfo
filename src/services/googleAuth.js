@@ -1,10 +1,11 @@
 import firebase from './firebaseConnection';
 
-const socialMediaAuth = (provider) => {
+const googleAuth = (provider) => {
   firebase
     .auth()
     .signInWithPopup(provider)
     .then((res) => {
+      console.log(res);
       return res.user;
     })
     .catch((err) => {
@@ -12,4 +13,4 @@ const socialMediaAuth = (provider) => {
     });
 };
 
-export default socialMediaAuth;
+export default googleAuth;
