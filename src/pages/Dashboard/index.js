@@ -6,19 +6,18 @@ import { toast } from 'react-toastify';
 import Header from '../../components/Header';
 import Title from '../../components/Title';
 import Modal from '../../components/Modal';
-import {
-  FiMessageSquare,
-  FiPlus,
-  FiSearch,
-  FiEdit2,
-  FiDelete,
-} from 'react-icons/fi';
+import { FiMessageSquare, FiPlus, FiSearch, FiEdit2 } from 'react-icons/fi';
 import { RiChatDeleteFill } from 'react-icons/ri';
 
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import firebase from '../../services/firebaseConnection';
+
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { Print } from '../../utils/print';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const listRef = firebase
   .firestore()
@@ -135,6 +134,13 @@ export default function Dashboard() {
     );
   }
 
+  const visualizarImpressao = async () => {
+    console.log('report', chamados);
+    const classeImpressao = new Print(chamados);
+    const documento = await classeImpressao.PreparaDocumento();
+    pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
+  };
+
   return (
     <div>
       <Header />
@@ -216,6 +222,10 @@ export default function Dashboard() {
                 })}
               </tbody>
             </table>
+
+            <button className="btn" onClick={visualizarImpressao}>
+              Exporta PDF
+            </button>
 
             {loadingMore && (
               <h3 style={{ textAlign: 'center', marginTop: 15 }}>
