@@ -31,7 +31,7 @@ function SignIn() {
       .auth()
       .signInWithPopup(provider)
       .then((res) => {
-        console.log(res);
+        console.log(res.user);
         toast().success('logado');
         return res.user;
       })
@@ -81,13 +81,13 @@ function SignIn() {
             <br /> <br />
           </div>
         )}
+        <button onClick={() => handleGoogleLogin(googleprovider)}>
+          <FaGoogle />
+          Fazer login com o Google
+        </button>
 
         <form onSubmit={handleSubmit}>
           <h1>Entrar</h1>
-          <button onClick={() => handleGoogleLogin(googleprovider)}>
-            <FaGoogle />
-            Fazer login com o Google
-          </button>
 
           <input
             type="text"

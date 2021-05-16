@@ -50,18 +50,18 @@ export default function Customers() {
 
         <div className="container">
           <form className="form-profile customers" onSubmit={handleAdd}>
-            <label>Nome fantasia</label>
+            <label>Nome fantasia / Nome cliente</label>
             <input
               type="text"
-              placeholder="Nome da sua empresa"
+              placeholder="Nome da sua empresa ou cliente"
               value={nomeFantasia}
               onChange={(e) => setNomeFantasia(e.target.value)}
             />
 
-            <label>CNPJ</label>
+            <label>CNPJ / CPF</label>
             <input
               type="text"
-              placeholder="Seu CNPJ"
+              placeholder="Seu CNPJ / CPF"
               value={cnpj}
               onChange={(e) => setCnpj(e.target.value)}
             />
