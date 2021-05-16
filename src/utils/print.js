@@ -62,7 +62,7 @@ export class Print {
           layout: 'noBorders',
           table: {
             headerRows: 1,
-            widths: ['*', 55, 55],
+            widths: ['*', 'auto', 55],
 
             body: corpoDocumento,
           },
