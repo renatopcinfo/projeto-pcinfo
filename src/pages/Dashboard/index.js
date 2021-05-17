@@ -40,8 +40,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     async function loadChamados() {
-      //pegar user local storage
-      //if user = admin > consulta sem where
       const user = JSON.parse(localStorage.getItem('SistemaUser'));
       if (user.type) {
         await listRef
@@ -61,12 +59,7 @@ export default function Dashboard() {
           .where('userId', '==', `${id}`)
           .get()
           .then((snapshot) => {
-            // console.log('1111111111111111111', snapshot);
-            // const list = snapshot.filter((element) => {
-            //   return element.userId == id;
-            // });
             updateState(snapshot);
-            // updateState(list);
           })
           .catch((err) => {
             console.log('Deu algum erro: ', err);
@@ -133,10 +126,6 @@ export default function Dashboard() {
         .then((snapshot) => {
           updateState(snapshot);
         });
-      // .catch((err) => {
-      //   console.log('Deu algum erro: ', err);
-      //   setLoadingMore(false);
-      // });
     } else {
       const id = user.uid;
       await listRef
@@ -147,10 +136,6 @@ export default function Dashboard() {
         .then((snapshot) => {
           updateState(snapshot);
         });
-      // .catch((err) => {
-      //   console.log('Deu algum erro: ', err);
-      //   setLoadingMore(false);
-      // });
     }
     setLoading(false);
   }
@@ -194,7 +179,6 @@ export default function Dashboard() {
   }
 
   const visualizarImpressao = async () => {
-    console.log('report', chamados);
     const classeImpressao = new Print(chamados);
     const documento = await classeImpressao.PreparaDocumento();
     pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
@@ -228,8 +212,6 @@ export default function Dashboard() {
   //totais.AbertoPerc = (totais.Aberto / totais.Total) * 100;
   //totais.ProgressoPerc = (totais.Progresso / totais.Total) * 100;
   //totais.AtendidoPerc = (totais.Atendido / totais.Total) * 100;
-
-  console.log(`rrrrrrrrrrrrrrrrrrr`, allChamados);
 
   return (
     <div>
