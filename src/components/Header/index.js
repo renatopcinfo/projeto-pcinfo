@@ -5,6 +5,7 @@ import avatar from '../../assets/avatar.png';
 
 import { Link } from 'react-router-dom';
 import { FiHome, FiUser, FiSettings } from 'react-icons/fi';
+import { AiFillPieChart } from 'react-icons/ai';
 
 export default function Header() {
   const { user } = useContext(AuthContext);
@@ -29,6 +30,10 @@ export default function Header() {
       <Link to="/profile">
         <FiSettings color="#FFF" size={24} />
         Configurações
+      </Link>
+      <Link to="/chart">
+        <AiFillPieChart color="#FFF" size={24} />
+        Gráfico
       </Link>
     </div>
   );

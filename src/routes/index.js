@@ -9,6 +9,7 @@ import Profile from '../pages/Profile';
 import Customers from '../pages/Customers';
 import Cloud from '../pages/Cloud';
 import New from '../pages/New';
+import Chart from '../components/Chart';
 
 export default function Routes() {
   return (
@@ -22,6 +23,7 @@ export default function Routes() {
       <Route exact path="/cloud" component={Cloud} isPrivate />
       <Route exact path="/new" component={New} isPrivate />
       <Route exact path="/new/:id" component={New} isPrivate />
+      <Route exact path="/chart" component={Chart} isPrivate />
     </Switch>
   );
 }

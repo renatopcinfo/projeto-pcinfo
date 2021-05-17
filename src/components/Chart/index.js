@@ -1,6 +1,9 @@
 import { useContext } from 'react';
 
+import Header from '../../components/Header';
+import Title from '../../components/Title';
 import { Chart } from 'react-google-charts';
+import { AiFillPieChart } from 'react-icons/ai';
 
 import { AuthContext } from '../../contexts/auth';
 
@@ -29,23 +32,34 @@ export default function DataChart() {
   });
 
   return (
-    <div style={{ display: 'flex', maxWidth: 900 }}>
-      <Chart
-        width={'500px'}
-        height={'300px'}
-        chartType="PieChart"
-        loader={<div>Loading Chart</div>}
-        data={[
-          ['Chamados', 'Quantidade'],
-          ['Em Aberto', totais.Aberto],
-          ['Em Progresso', totais.Progresso],
-          ['Atentido', totais.Atendido],
-        ]}
-        options={{
-          title: 'Chamados',
-        }}
-        rootProps={{ 'data-testid': '1' }}
-      />
+    <div>
+      <Header />
+
+      <div className="content">
+        <Title name="Gráfico Chamados">
+          <AiFillPieChart size={25} />
+        </Title>
+        <div className="container">
+          <div style={{ display: 'flex', maxWidth: 900 }}>
+            <Chart
+              width={'500px'}
+              height={'300px'}
+              chartType="PieChart"
+              loader={<div>Loading Chart</div>}
+              data={[
+                ['Chamados', 'Quantidade'],
+                ['Em Aberto', totais.Aberto],
+                ['Em Progresso', totais.Progresso],
+                ['Atentido', totais.Atendido],
+              ]}
+              options={{
+                title: 'Chamados',
+              }}
+              rootProps={{ 'data-testid': '1' }}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
