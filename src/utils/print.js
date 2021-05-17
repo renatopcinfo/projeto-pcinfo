@@ -14,28 +14,27 @@ export class Print {
       { text: 'CLIENTE', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
       { text: 'ASSUNTO', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
       { text: 'STATUS', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-      //{ text: 'COMPLEMENTO', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-      //{ text: 'CRIADO EM', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
+      { text: 'CRIADO EM', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
     ];
     const body = this.dadosParaImpressao.map((item) => {
       return [
         { text: item.cliente, fontSize: 8 },
         { text: item.assunto, fontSize: 8 },
         { text: item.status, fontSize: 8 },
-        //{ text: item.complemento, fontSize: 8 },
-        // { text: item.createdFormated, fontSize: 8 },
+        { text: item.createdFormated, fontSize: 8 },
       ];
     });
 
     const lineHeader = [
       {
-        text: '__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________',
+        text: '___________________________________________________________________________________________________________________________________________________',
         alignment: 'center',
         fontSize: 5,
-        colSpan: 3,
+        colSpan: 4,
       },
-      {},
-      {},
+      //{},
+      //{},
+      //{},
     ];
 
     let content = [header, lineHeader];
@@ -62,7 +61,7 @@ export class Print {
           layout: 'noBorders',
           table: {
             headerRows: 1,
-            widths: ['*', 'auto', 55],
+            widths: ['auto', 'auto', 150, 50],
 
             body: corpoDocumento,
           },

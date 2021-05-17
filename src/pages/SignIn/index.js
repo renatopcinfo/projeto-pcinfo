@@ -52,6 +52,7 @@ function SignIn() {
           setUserLogged({
             uid: user.uid,
             email: user.email,
+            type: user.type,
           });
           //se tem usuario logado entra aqui dentro...
         } else {

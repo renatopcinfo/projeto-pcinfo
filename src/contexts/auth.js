@@ -1,13 +1,16 @@
 import { useState, createContext, useEffect } from 'react';
 import firebase from '../services/firebaseConnection';
 import { toast } from 'react-toastify';
+import { format } from 'date-fns';
 
 export const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [allChamados, setAllChamados] = useState([]);
   const [loadingAuth, setLoadingAuth] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [empty, setEmpty] = useState(false);
 
   useEffect(() => {
     function loadStorage() {
@@ -23,6 +26,55 @@ function AuthProvider({ children }) {
 
     loadStorage();
   }, []);
+
+  //carregando all chamados
+  useEffect(() => {
+    async function loadAllChamados() {
+      await firebase
+        .firestore()
+        .collection('chamados')
+        .orderBy('created', 'desc')
+        .get()
+        .then((snapshot) => {
+          updateStateAll(snapshot);
+        })
+        .catch((err) => {
+          console.log('Deu algum erro: ', err);
+        });
+
+      setLoading(false);
+    }
+
+    loadAllChamados();
+
+    return () => {};
+  }, []);
+
+  //format data chamados
+  async function updateStateAll(snapshot) {
+    const isCollectionEmpty = snapshot.size === 0;
+
+    if (!isCollectionEmpty) {
+      let lista = [];
+
+      snapshot.forEach((doc) => {
+        lista.push({
+          id: doc.id,
+          assunto: doc.data().assunto,
+          cliente: doc.data().cliente,
+          clienteId: doc.data().clienteId,
+          created: doc.data().created,
+          createdFormated: format(doc.data().created.toDate(), 'dd/MM/yyyy'),
+          status: doc.data().status,
+          complemento: doc.data().complemento,
+        });
+      });
+      setAllChamados((allChamados) => [...allChamados, ...lista]);
+    } else {
+      setEmpty(true);
+    }
+  }
+  //console.log('todos chamados', updateStateAll);
 
   // //user login auth
   // async function signInGoogle(email, password) {
@@ -79,6 +131,7 @@ function AuthProvider({ children }) {
           nome: userProfile.data().nome,
           avatarUrl: userProfile.data().avatarUrl,
           email: value.user.email,
+          type: userProfile.data().type ? userProfile.data().type : null,
         };
 
         setUser(data);
@@ -159,6 +212,7 @@ function AuthProvider({ children }) {
         loadingAuth,
         setUser,
         storageUser,
+        allChamados,
       }}
     >
       {children}

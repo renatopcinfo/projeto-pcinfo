@@ -1,7 +1,8 @@
 import './dashboard.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import { toast } from 'react-toastify';
+import { Chart } from 'react-google-charts';
 
 import Header from '../../components/Header';
 import Title from '../../components/Title';
@@ -12,6 +13,7 @@ import { RiChatDeleteFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 
+import { AuthContext } from '../../contexts/auth';
 import firebase from '../../services/firebaseConnection';
 
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -25,6 +27,8 @@ const listRef = firebase
   .orderBy('created', 'desc');
 
 export default function Dashboard() {
+  const { allChamados } = useContext(AuthContext);
+
   const [chamados, setChamados] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -36,16 +40,40 @@ export default function Dashboard() {
 
   useEffect(() => {
     async function loadChamados() {
-      await listRef
-        .limit(5)
-        .get()
-        .then((snapshot) => {
-          updateState(snapshot);
-        })
-        .catch((err) => {
-          console.log('Deu algum erro: ', err);
-          setLoadingMore(false);
-        });
+      //pegar user local storage
+      //if user = admin > consulta sem where
+      const user = JSON.parse(localStorage.getItem('SistemaUser'));
+      if (user.type) {
+        await listRef
+          .limit(5)
+          .get()
+          .then((snapshot) => {
+            updateState(snapshot);
+          })
+          .catch((err) => {
+            console.log('Deu algum erro: ', err);
+            setLoadingMore(false);
+          });
+      } else {
+        const id = user.uid;
+        console.log('verificando id', id);
+        await listRef
+          .limit(5)
+          .where('userId', '==', `${id}`)
+          .get()
+          .then((snapshot) => {
+            // console.log('1111111111111111111', snapshot);
+            // const list = snapshot.filter((element) => {
+            //   return element.userId == id;
+            // });
+            updateState(snapshot);
+            // updateState(list);
+          })
+          .catch((err) => {
+            console.log('Deu algum erro: ', err);
+            setLoadingMore(false);
+          });
+      }
 
       setLoading(false);
     }
@@ -56,6 +84,7 @@ export default function Dashboard() {
   }, []);
 
   async function updateState(snapshot) {
+    console.log('data banco', snapshot);
     const isCollectionEmpty = snapshot.size === 0;
 
     if (!isCollectionEmpty) {
@@ -141,8 +170,68 @@ export default function Dashboard() {
     pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
   };
 
+  //data chart
+  let totais = {
+    Aberto: 0,
+    //AbertoPerc: 0,
+    Progresso: 0,
+    //ProgressoPerc: 0,
+    Atendido: 0,
+    // AtendidoPerc: 0,
+    // Total: 0,
+  };
+
+  allChamados.forEach((doc) => {
+    //totais.Total++;
+    switch (doc.status) {
+      case 'Aberto':
+        totais.Aberto++;
+        break;
+      case 'Progresso':
+        totais.Progresso++;
+        break;
+      case 'Atendido':
+        totais.Atendido++;
+        break;
+    }
+    //dataChart.push({
+    //  id: doc.id,
+    //  assunto: doc.data().assunto,
+    //  cliente: doc.data().cliente,
+    //  clienteId: doc.data().clienteId,
+    //  created: doc.data().created,
+    //  createdFormated: format(doc.data().created.toDate(), 'dd/MM/yyyy'),
+    //  status: doc.data().status,
+    //  complemento: doc.data().complemento,
+    //});
+  });
+  //totais.AbertoPerc = (totais.Aberto / totais.Total) * 100;
+  //totais.ProgressoPerc = (totais.Progresso / totais.Total) * 100;
+  //totais.AtendidoPerc = (totais.Atendido / totais.Total) * 100;
+
+  console.log(`rrrrrrrrrrrrrrrrrrr`, allChamados);
+
   return (
     <div>
+      <div style={{ display: 'flex', maxWidth: 900 }}>
+        <Chart
+          width={'500px'}
+          height={'300px'}
+          chartType="PieChart"
+          loader={<div>Loading Chart</div>}
+          data={[
+            ['Chamados', 'Quantidade'],
+            ['Em Aberto', totais.Aberto],
+            ['Em Progresso', totais.Progresso],
+            ['Atentido', totais.Atendido],
+          ]}
+          options={{
+            title: 'Chamados',
+          }}
+          rootProps={{ 'data-testid': '1' }}
+        />
+      </div>
+
       <Header />
 
       <div className="content">
