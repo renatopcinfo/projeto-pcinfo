@@ -56,7 +56,6 @@ export default function Dashboard() {
           });
       } else {
         const id = user.uid;
-        console.log('verificando id', id);
         await listRef
           .limit(5)
           .where('userId', '==', `${id}`)
@@ -115,14 +114,45 @@ export default function Dashboard() {
   }
 
   async function handleMore() {
-    setLoadingMore(true);
-    await listRef
-      .startAfter(lastDocs)
-      .limit(5)
-      .get()
-      .then((snapshot) => {
-        updateState(snapshot);
-      });
+    const user = JSON.parse(localStorage.getItem('SistemaUser'));
+    //setLoadingMore(true);
+    //await listRef
+    //  .startAfter(lastDocs)
+    //  .limit(5)
+    //  .get()
+    //  .then((snapshot) => {
+    //    updateState(snapshot);
+    //  });
+
+    if (user.type) {
+      setLoadingMore(true);
+      await listRef
+        .startAfter(lastDocs)
+        .limit(5)
+        .get()
+        .then((snapshot) => {
+          updateState(snapshot);
+        });
+      // .catch((err) => {
+      //   console.log('Deu algum erro: ', err);
+      //   setLoadingMore(false);
+      // });
+    } else {
+      const id = user.uid;
+      await listRef
+        .startAfter(lastDocs)
+        .limit(5)
+        .where('userId', '==', `${id}`)
+        .get()
+        .then((snapshot) => {
+          updateState(snapshot);
+        });
+      // .catch((err) => {
+      //   console.log('Deu algum erro: ', err);
+      //   setLoadingMore(false);
+      // });
+    }
+    setLoading(false);
   }
 
   function togglePostModal(item) {
@@ -194,16 +224,6 @@ export default function Dashboard() {
         totais.Atendido++;
         break;
     }
-    //dataChart.push({
-    //  id: doc.id,
-    //  assunto: doc.data().assunto,
-    //  cliente: doc.data().cliente,
-    //  clienteId: doc.data().clienteId,
-    //  created: doc.data().created,
-    //  createdFormated: format(doc.data().created.toDate(), 'dd/MM/yyyy'),
-    //  status: doc.data().status,
-    //  complemento: doc.data().complemento,
-    //});
   });
   //totais.AbertoPerc = (totais.Aberto / totais.Total) * 100;
   //totais.ProgressoPerc = (totais.Progresso / totais.Total) * 100;
