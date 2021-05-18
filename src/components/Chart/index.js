@@ -45,7 +45,7 @@ export default function DataChart() {
               width={'500px'}
               height={'300px'}
               chartType="PieChart"
-              loader={<div>Loading Chart</div>}
+              loader={<div>Carregando...</div>}
               data={[
                 ['Chamados', 'Quantidade'],
                 ['Em Aberto', totais.Aberto],

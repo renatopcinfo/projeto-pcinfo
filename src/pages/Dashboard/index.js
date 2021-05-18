@@ -166,7 +166,7 @@ export default function Dashboard() {
     );
   }
 
-  const visualizarImpressao = async () => {
+  const viewPrint = async () => {
     const classeImpressao = new Print(chamados);
     const documento = await classeImpressao.PreparaDocumento();
     pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
@@ -182,6 +182,9 @@ export default function Dashboard() {
         <Title name="Atendimentos">
           <FiMessageSquare size={25} />
         </Title>
+        <button className="btn-pdf" onClick={viewPrint}>
+          Exportar PDF
+        </button>
 
         {chamados.length === 0 ? (
           <div className="container dashboard">
@@ -243,27 +246,23 @@ export default function Dashboard() {
                           <FiEdit2 color="#FFF" size={17} />
                         </Link>
 
-                        <button
-                          className="action"
-                          style={{ backgroundColor: '#dc2f02' }}
-                          onClick={() => handleDelItem(item.id)}
-                        >
-                          {userType.type ? (
+                        {userType.type ? (
+                          <button
+                            className="action"
+                            style={{ backgroundColor: '#dc2f02' }}
+                            onClick={() => handleDelItem(item.id)}
+                          >
                             <RiChatDeleteFill color="#FFF" size={17} />
-                          ) : (
-                            <></>
-                          )}
-                        </button>
+                          </button>
+                        ) : (
+                          <></>
+                        )}
                       </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
-
-            <button className="btn" onClick={visualizarImpressao}>
-              Exporta PDF
-            </button>
 
             {loadingMore && (
               <h3 style={{ textAlign: 'center', marginTop: 15 }}>
