@@ -1,6 +1,6 @@
 const isAdmin = () => {
-  const user = JSON.parse(localStorage.getItem('SistemaUser'));
-  return user.type;
+  const userType = JSON.parse(localStorage.getItem('SistemaUser'));
+  return userType.type;
 };
 
 const getUserId = () => {
