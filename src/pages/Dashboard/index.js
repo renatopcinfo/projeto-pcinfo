@@ -104,14 +104,6 @@ export default function Dashboard() {
 
   async function handleMore() {
     const user = JSON.parse(localStorage.getItem('SistemaUser'));
-    //setLoadingMore(true);
-    //await listRef
-    //  .startAfter(lastDocs)
-    //  .limit(5)
-    //  .get()
-    //  .then((snapshot) => {
-    //    updateState(snapshot);
-    //  });
 
     if (user.type) {
       setLoadingMore(true);
@@ -179,6 +171,8 @@ export default function Dashboard() {
     const documento = await classeImpressao.PreparaDocumento();
     pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
   };
+
+  const userType = JSON.parse(localStorage.getItem('SistemaUser'));
 
   return (
     <div>
@@ -248,12 +242,17 @@ export default function Dashboard() {
                         >
                           <FiEdit2 color="#FFF" size={17} />
                         </Link>
+
                         <button
                           className="action"
                           style={{ backgroundColor: '#dc2f02' }}
                           onClick={() => handleDelItem(item.id)}
                         >
-                          <RiChatDeleteFill color="#FFF" size={17} />
+                          {userType.type ? (
+                            <RiChatDeleteFill color="#FFF" size={17} />
+                          ) : (
+                            <></>
+                          )}
                         </button>
                       </td>
                     </tr>
