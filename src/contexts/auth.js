@@ -74,41 +74,11 @@ function AuthProvider({ children }) {
       setEmpty(true);
     }
   }
-  //console.log('todos chamados', updateStateAll);
 
-  // //user login auth
-  // async function signInGoogle(email, password) {
-  //   setLoadingAuth(true);
-
-  //   await firebase
-  //     .auth()
-  //     .signInWithEmailAndPassword(email, password)
-  //     .then(async (value) => {
-  //       let uid = value.user.uid;
-
-  //       const userProfile = await firebase
-  //         .firestore()
-  //         .collection('users')
-  //         .doc(uid)
-  //         .get();
-
-  //       let data = {
-  //         uid: uid,
-  //         nome: userProfile.data().nome,
-  //         email: value.user.email,
-  //       };
-
-  //       setUser(data);
-  //       storageUser(data);
-  //       setLoadingAuth(false);
-  //       toast.success('Bem vindo de volta!');
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       toast.error('Ops algo deu errado!');
-  //       setLoadingAuth(false);
-  //     });
-  // }
+  // google login
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(setUser);
+  }, []);
 
   //user login
   async function signIn(email, password) {
