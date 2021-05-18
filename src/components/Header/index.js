@@ -1,7 +1,6 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import './header.css';
 import { AuthContext } from '../../contexts/auth';
-//import { isAdmin } from '../../services/access';
 import avatar from '../../assets/avatar.png';
 
 import { Link } from 'react-router-dom';

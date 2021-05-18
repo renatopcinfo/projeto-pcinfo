@@ -1,5 +1,5 @@
 import './dashboard.css';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 
 import { toast } from 'react-toastify';
 
