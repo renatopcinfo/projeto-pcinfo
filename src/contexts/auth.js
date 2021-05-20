@@ -75,10 +75,21 @@ function AuthProvider({ children }) {
     }
   }
 
-  // google login
+  //google login
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(setUser);
+    //firebase.auth().onAuthStateChanged(setUser);
+    // const storageGoogle = localStorage.getItem('SistemaUser');
+    // if (storageGoogle) {
+    //   firebase.auth().onAuthStateChanged(setUser(JSON.parse(storageGoogle)));
+    //   //setLoading(false);
+    // }
+    // //setLoading(false);
   }, []);
+
+  //async function GoogleLogin() {
+  //  firebase.auth().onAuthStateChanged(setUser);
+  //  setLoadingAuth(false);
+  //}
 
   //user login
   async function signIn(email, password) {
@@ -111,7 +122,7 @@ function AuthProvider({ children }) {
       })
       .catch((error) => {
         console.log(error);
-        toast.error('Ops algo deu errado!');
+        toast.error('Usuário ou senha inválidos.');
         setLoadingAuth(false);
       });
   }
@@ -183,6 +194,7 @@ function AuthProvider({ children }) {
         setUser,
         storageUser,
         allChamados,
+        //GoogleLogin,
       }}
     >
       {children}

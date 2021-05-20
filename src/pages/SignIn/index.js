@@ -16,28 +16,36 @@ function SignIn() {
   const [user, setUser] = useState(false);
   const [userLogged, setUserLogged] = useState({});
 
-  const { signIn, loadingAuth, signed } = useContext(AuthContext);
+  const { signIn, loadingAuth, GoogleLogin } = useContext(AuthContext);
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (email !== '' && password !== '') {
       signIn(email, password);
+    } else {
+      toast.error('Informe e-mail e senha!');
     }
   }
 
   const handleGoogleLogin = async (provider) => {
+    // firebase.auth().onAuthStateChanged(setUser);
     firebase
       .auth()
       .signInWithPopup(provider)
       .then((res) => {
-        console.log(res.user);
+        console.log('retorno google login', res.user);
         toast().success('logado');
         return res.user;
       })
       .catch((err) => {
         return err;
       });
+    //signUp();
+    // await firebase.firestore().collection('users').set({
+    //   nome: nome,
+    //   avatarUrl: null,
+    // });
   };
 
   async function handleLogout() {

@@ -72,7 +72,6 @@ export default function Dashboard() {
   }, []);
 
   async function updateState(snapshot) {
-    console.log('data banco', snapshot);
     const isCollectionEmpty = snapshot.size === 0;
 
     if (!isCollectionEmpty) {

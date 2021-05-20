@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/auth';
 
@@ -16,6 +17,8 @@ function SignUp() {
 
     if (nome !== '' && email !== '' && password !== '') {
       signUp(email, password, nome);
+    } else {
+      toast.error('Preencha todos os campos!');
     }
   }
 
