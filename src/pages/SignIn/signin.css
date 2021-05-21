@@ -51,6 +51,23 @@ form h1 {
   background-color: #fff;
 }
 
+.btn-google{
+  margin: 1.5em 0;
+  padding: .5em 1em;
+  height: 29px;
+  border: 0;
+  border-radius: 5px;
+  background-color: #181c2e;
+  color: #FFF;
+  font-size: 0.8em;
+}
+
+.btn-google svg {
+  margin: 0 0.5em;
+  color: #FFF;
+  cursor: pointer;
+}
+
 form button {
   height: 35px;
   border: 0;

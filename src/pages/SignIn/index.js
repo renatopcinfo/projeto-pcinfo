@@ -117,10 +117,6 @@ function SignIn() {
             <br /> <br />
           </div>
         )}
-        <button onClick={() => handleGoogleLogin(googleprovider)}>
-          <FaGoogle />
-          Fazer login com o Google
-        </button>
 
         <form onSubmit={handleSubmit}>
           <h1>Entrar</h1>
@@ -141,6 +137,14 @@ function SignIn() {
             {loadingAuth ? 'Carregando...' : 'Acessar'}
           </button>
         </form>
+
+        <button
+          className="btn-google"
+          onClick={() => handleGoogleLogin(googleprovider)}
+        >
+          <FaGoogle />
+          Fazer login com o Google
+        </button>
 
         <Link to="/register">Criar uma conta</Link>
       </div>
