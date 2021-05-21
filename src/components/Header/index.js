@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import './header.css';
 import { AuthContext } from '../../contexts/auth';
-import avatar from '../../assets/avatar.png';
+import avatarStart from '../../assets/avatar.png';
 
 import { Link } from 'react-router-dom';
 import { FiHome, FiUser, FiSettings } from 'react-icons/fi';
@@ -10,7 +10,12 @@ import { AiFillPieChart } from 'react-icons/ai';
 export default function Header() {
   const { user } = useContext(AuthContext);
 
+  // const [avatarUrl, setAvatarUrl] = useState(
+  //   (user && user.avatarUrl) || user.photoURL
+  // );
+
   localStorage.setItem('SistemaUser', JSON.stringify(user));
+  //localStorage.setItem('type', 'Default');
 
   const userType = JSON.parse(localStorage.getItem('SistemaUser'));
 
@@ -18,7 +23,11 @@ export default function Header() {
     <div className="sidebar">
       <div>
         <img
-          src={user.avatarUrl === null ? avatar : user.avatarUrl}
+          src={
+            user.avatarUrl === null
+              ? avatarStart
+              : user.avatarUrl || user.photoURL
+          }
           alt="Foto avatar"
         />
       </div>

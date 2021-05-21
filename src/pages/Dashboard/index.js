@@ -244,18 +244,13 @@ export default function Dashboard() {
                         >
                           <FiEdit2 color="#FFF" size={17} />
                         </Link>
-
-                        {userType.type ? (
-                          <button
-                            className="action"
-                            style={{ backgroundColor: '#dc2f02' }}
-                            onClick={() => handleDelItem(item.id)}
-                          >
-                            <RiChatDeleteFill color="#FFF" size={17} />
-                          </button>
-                        ) : (
-                          <></>
-                        )}
+                        <button
+                          className="action"
+                          style={{ backgroundColor: '#dc2f02' }}
+                          onClick={() => handleDelItem(item.id)}
+                        >
+                          <RiChatDeleteFill color="#FFF" size={17} />
+                        </button>
                       </td>
                     </tr>
                   );

@@ -9,6 +9,7 @@ import logo from '../../assets/logo.png';
 import { googleprovider } from '../../services/authMethods';
 import googleAuth from '../../services/googleAuth';
 import { toast } from 'react-toastify';
+import SignUp from '../SignUp';
 
 function SignIn() {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ function SignIn() {
   const [user, setUser] = useState(false);
   const [userLogged, setUserLogged] = useState({});
 
-  const { signIn, loadingAuth, GoogleLogin } = useContext(AuthContext);
+  const { signIn, loadingAuth, storageUser } = useContext(AuthContext);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -33,10 +34,36 @@ function SignIn() {
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then((res) => {
-        console.log('retorno google login', res.user);
-        toast().success('logado');
-        return res.user;
+      .then(async (res) => {
+        //let uid = value.user.uid;
+        //console.log('Value', uid);
+        //console.log('retorno google login', res.user);
+        //toast().success('logado');
+        //console.log('resposta google', res);
+        //return res.user;
+        //procurar se está cadastrado e carregar
+        let data = {
+          uid: res.user.uid,
+          nome: res.user.displayName,
+          email: res.user.email,
+          avatarUrl: res.user.photoURL ? res.user.photoURL : null,
+        };
+        console.log('Data', data);
+        await firebase.firestore().collection('users').doc(data.uid).set({
+          nome: data.nome,
+          avatarUrl: data.avatarUrl,
+        });
+
+        // if (!userProfile) {
+        //   //insert
+        //   SignUp(data);
+        // } else {
+        //   //update
+        // }
+
+        localStorage.removeItem('type');
+        setUser(data);
+        storageUser(data);
       })
       .catch((err) => {
         return err;
@@ -52,27 +79,27 @@ function SignIn() {
     await firebase.auth().signOut();
   }
 
-  useEffect(() => {
-    async function checkLogin() {
-      await firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          setUser(true);
-          setUserLogged({
-            uid: user.uid,
-            email: user.email,
-            type: user.type,
-          });
-          //se tem usuario logado entra aqui dentro...
-        } else {
-          //nao possui nenhum user logado.
-          setUser(false);
-          setUserLogged({});
-        }
-      });
-    }
+  // useEffect(() => {
+  //   async function checkLogin() {
+  //     await firebase.auth().onAuthStateChanged((user) => {
+  //       if (user) {
+  //         setUser(true);
+  //         setUserLogged({
+  //           uid: user.uid,
+  //           email: user.email,
+  //           type: user.type,
+  //         });
+  //         //se tem usuario logado entra aqui dentro...
+  //       } else {
+  //         //nao possui nenhum user logado.
+  //         setUser(false);
+  //         setUserLogged({});
+  //       }
+  //     });
+  //   }
 
-    checkLogin();
-  }, []);
+  //   checkLogin();
+  // }, []);
 
   return (
     <div className="container-center">

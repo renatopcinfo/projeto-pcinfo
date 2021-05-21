@@ -13,10 +13,12 @@ import { FiSettings, FiUpload } from 'react-icons/fi';
 export default function Profile() {
   const { user, signOut, setUser, storageUser } = useContext(AuthContext);
 
-  const [nome, setNome] = useState(user && user.nome);
+  const [nome, setNome] = useState((user && user.nome) || user.displayName);
   const [email, setEmail] = useState(user && user.email);
 
-  const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
+  const [avatarUrl, setAvatarUrl] = useState(
+    (user && user.avatarUrl) || user.photoURL
+  );
   const [imageAvatar, setImageAvatar] = useState(null);
 
   function handleFile(e) {
@@ -37,7 +39,7 @@ export default function Profile() {
   async function handleUpload() {
     const currentUid = user.uid;
 
-    const uploadTask = await firebase
+    await firebase
       .storage()
       .ref(`images/${currentUid}/${imageAvatar.name}`)
       .put(imageAvatar)
@@ -61,11 +63,15 @@ export default function Profile() {
                 nome: nome,
               })
               .then(() => {
+                //let data = user;
+                //data.avatarUrl = urlFoto;
+                //data.nome = nome;
                 let data = {
                   ...user,
                   avatarUrl: urlFoto,
                   nome: nome,
                 };
+                console.log('tttttttttttttttttt', data);
                 setUser(data);
                 storageUser(data);
               });
@@ -89,6 +95,7 @@ export default function Profile() {
             ...user,
             nome: nome,
           };
+          console.log('ttttttSave', data);
           setUser(data);
           storageUser(data);
           toast.success('Informações atualizadas com sucesso!');

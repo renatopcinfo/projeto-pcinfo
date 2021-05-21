@@ -19,36 +19,38 @@ function AuthProvider({ children }) {
       if (storageUser) {
         setUser(JSON.parse(storageUser));
         setLoading(false);
+      } else {
+        setUser(null);
       }
 
       setLoading(false);
     }
 
     loadStorage();
+    loadAllChamados();
   }, []);
 
   //carregando all chamados
-  useEffect(() => {
-    async function loadAllChamados() {
-      await firebase
-        .firestore()
-        .collection('chamados')
-        .orderBy('created', 'desc')
-        .get()
-        .then((snapshot) => {
-          updateStateAll(snapshot);
-        })
-        .catch((err) => {
-          console.log('Deu algum erro: ', err);
-        });
+  // useEffect(() => {
 
-      setLoading(false);
-    }
+  //   return () => {};
+  // }, []);
 
-    loadAllChamados();
+  async function loadAllChamados() {
+    await firebase
+      .firestore()
+      .collection('chamados')
+      .orderBy('created', 'desc')
+      .get()
+      .then((snapshot) => {
+        updateStateAll(snapshot);
+      })
+      .catch((err) => {
+        console.log('Deu algum erro: ', err);
+      });
 
-    return () => {};
-  }, []);
+    setLoading(false);
+  }
 
   //format data chamados
   async function updateStateAll(snapshot) {
@@ -77,11 +79,14 @@ function AuthProvider({ children }) {
 
   //google login
   useEffect(() => {
-    //firebase.auth().onAuthStateChanged(setUser);
+    const type = localStorage.getItem('type');
+    if (!type || type !== 'Default') {
+      firebase.auth().onAuthStateChanged(setUser);
+    }
     // const storageGoogle = localStorage.getItem('SistemaUser');
     // if (storageGoogle) {
     //   firebase.auth().onAuthStateChanged(setUser(JSON.parse(storageGoogle)));
-    //   //setLoading(false);
+    setLoading(false);
     // }
     // //setLoading(false);
   }, []);
@@ -116,6 +121,7 @@ function AuthProvider({ children }) {
         };
 
         setUser(data);
+        localStorage.setItem('type', 'Default');
         storageUser(data);
         setLoadingAuth(false);
         toast.success('Bem vindo de volta!');
@@ -155,6 +161,7 @@ function AuthProvider({ children }) {
 
             setUser(data);
             storageUser(data);
+            localStorage.setItem('type', 'Default');
             setLoadingAuth(false);
             toast.success('Bem vindo a plataforma!');
           });
@@ -172,12 +179,14 @@ function AuthProvider({ children }) {
 
   function storageUser(data) {
     localStorage.setItem('SistemaUser', JSON.stringify(data));
+    //localStorage.setItem('type', 'Default');
   }
 
   //logout
   async function signOut() {
-    await firebase.auth().signOut();
+    localStorage.removeItem('type');
     localStorage.removeItem('SistemaUser');
+    await firebase.auth().signOut();
     setUser(null);
   }
 
@@ -194,7 +203,6 @@ function AuthProvider({ children }) {
         setUser,
         storageUser,
         allChamados,
-        //GoogleLogin,
       }}
     >
       {children}
