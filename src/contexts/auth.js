@@ -83,18 +83,9 @@ function AuthProvider({ children }) {
     if (!type || type !== 'Default') {
       firebase.auth().onAuthStateChanged(setUser);
     }
-    // const storageGoogle = localStorage.getItem('SistemaUser');
-    // if (storageGoogle) {
-    //   firebase.auth().onAuthStateChanged(setUser(JSON.parse(storageGoogle)));
-    setLoading(false);
-    // }
-    // //setLoading(false);
-  }, []);
 
-  //async function GoogleLogin() {
-  //  firebase.auth().onAuthStateChanged(setUser);
-  //  setLoadingAuth(false);
-  //}
+    setLoading(false);
+  }, []);
 
   //user login
   async function signIn(email, password) {
@@ -184,8 +175,8 @@ function AuthProvider({ children }) {
 
   //logout
   async function signOut() {
-    localStorage.removeItem('type');
     localStorage.removeItem('SistemaUser');
+    localStorage.removeItem('type');
     await firebase.auth().signOut();
     setUser(null);
   }

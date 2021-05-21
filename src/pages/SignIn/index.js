@@ -75,9 +75,9 @@ function SignIn() {
     // });
   };
 
-  async function handleLogout() {
-    await firebase.auth().signOut();
-  }
+  // async function handleLogout() {
+  //   await firebase.auth().signOut();
+  // }
 
   // useEffect(() => {
   //   async function checkLogin() {
@@ -145,10 +145,10 @@ function SignIn() {
         <Link to="/register">Criar uma conta</Link>
       </div>
 
-      <button onClick={handleLogout}>
+      {/* <button onClick={handleLogout}>
         <FaGoogle />
         Sair
-      </button>
+      </button> */}
     </div>
   );
 }
