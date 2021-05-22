@@ -79,8 +79,8 @@ function AuthProvider({ children }) {
 
   //google login
   useEffect(() => {
-    const type = localStorage.getItem('type');
-    if (!type || type !== 'Default') {
+    const typeLogin = localStorage.getItem('typeLogin');
+    if (!typeLogin || typeLogin !== 'Default') {
       firebase.auth().onAuthStateChanged(setUser);
     }
 
@@ -112,7 +112,7 @@ function AuthProvider({ children }) {
         };
 
         setUser(data);
-        localStorage.setItem('type', 'Default');
+        localStorage.setItem('typeLogin', 'Default');
         storageUser(data);
         setLoadingAuth(false);
         toast.success('Bem vindo de volta!');
@@ -152,7 +152,7 @@ function AuthProvider({ children }) {
 
             setUser(data);
             storageUser(data);
-            localStorage.setItem('type', 'Default');
+            localStorage.setItem('typeLogin', 'Default');
             setLoadingAuth(false);
             toast.success('Bem vindo a plataforma!');
           });
@@ -170,13 +170,12 @@ function AuthProvider({ children }) {
 
   function storageUser(data) {
     localStorage.setItem('SistemaUser', JSON.stringify(data));
-    //localStorage.setItem('type', 'Default');
   }
 
   //logout
   async function signOut() {
     localStorage.removeItem('SistemaUser');
-    localStorage.removeItem('type');
+    localStorage.removeItem('typeLogin');
     await firebase.auth().signOut();
     setUser(null);
   }

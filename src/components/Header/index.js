@@ -15,8 +15,8 @@ export default function Header() {
   // );
 
   localStorage.setItem('SistemaUser', JSON.stringify(user));
-  //localStorage.setItem('type', 'Default');
 
+  //localStorage.setItem('type', 'Default');
   const userType = JSON.parse(localStorage.getItem('SistemaUser'));
 
   return (

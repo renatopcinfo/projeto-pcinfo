@@ -61,7 +61,7 @@ function SignIn() {
         //   //update
         // }
 
-        localStorage.removeItem('type');
+        localStorage.removeItem('typeLogin');
         setUser(data);
         storageUser(data);
       })

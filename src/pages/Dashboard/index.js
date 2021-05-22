@@ -37,7 +37,9 @@ export default function Dashboard() {
   useEffect(() => {
     async function loadChamados() {
       const user = JSON.parse(localStorage.getItem('SistemaUser'));
+
       if (user.type) {
+        console.log('teste de type');
         await listRef
           .limit(5)
           .get()
@@ -60,12 +62,12 @@ export default function Dashboard() {
           .catch((err) => {
             console.log('Deu algum erro: ', err);
             setLoadingMore(false);
+            console.log('testando');
           });
       }
 
       setLoading(false);
     }
-    console.log('testando');
     loadChamados();
 
     return () => {};
@@ -103,7 +105,6 @@ export default function Dashboard() {
 
   async function handleMore() {
     const user = JSON.parse(localStorage.getItem('SistemaUser'));
-
     if (user.type) {
       setLoadingMore(true);
       await listRef
@@ -171,8 +172,6 @@ export default function Dashboard() {
     pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
   };
 
-  const userType = JSON.parse(localStorage.getItem('SistemaUser'));
-
   return (
     <div>
       <Header />
@@ -184,7 +183,6 @@ export default function Dashboard() {
         <button className="btn-pdf" onClick={viewPrint}>
           Exportar PDF
         </button>
-
         {chamados.length === 0 ? (
           <div className="container dashboard">
             <span>Nenhum chamado registrado...</span>
