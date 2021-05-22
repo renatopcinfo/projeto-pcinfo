@@ -65,7 +65,7 @@ export default function Dashboard() {
 
       setLoading(false);
     }
-
+    console.log('testando');
     loadChamados();
 
     return () => {};

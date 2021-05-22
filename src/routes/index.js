@@ -7,7 +7,7 @@ import SignUp from '../pages/SignUp';
 import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/Profile';
 import Customers from '../pages/Customers';
-import Cloud from '../pages/Cloud';
+//import Cloud from '../pages/Cloud';
 import New from '../pages/New';
 import Chart from '../components/Chart';
 
@@ -20,7 +20,6 @@ export default function Routes() {
       <Route exact path="/dashboard" component={Dashboard} isPrivate />
       <Route exact path="/profile" component={Profile} isPrivate />
       <Route exact path="/customers" component={Customers} isPrivate />
-      <Route exact path="/cloud" component={Cloud} isPrivate />
       <Route exact path="/new" component={New} isPrivate />
       <Route exact path="/new/:id" component={New} isPrivate />
       <Route exact path="/chart" component={Chart} isPrivate />
