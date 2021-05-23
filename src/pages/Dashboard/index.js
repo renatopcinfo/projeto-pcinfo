@@ -37,10 +37,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     async function loadChamados() {
-      const user = JSON.parse(localStorage.getItem('SistemaUser'));
-
+      const user = JSON.parse(localStorage.getItem('userInfo'));
+      console.log(user);
       if (user.type) {
-        console.log('teste de type');
+        console.log('teste de type', user.type);
         await listRef
           .limit(5)
           .get()
@@ -63,7 +63,6 @@ export default function Dashboard() {
           .catch((err) => {
             console.log('Deu algum erro: ', err);
             setLoadingMore(false);
-            console.log('testando');
           });
       }
 
@@ -105,7 +104,7 @@ export default function Dashboard() {
   }
 
   async function handleMore() {
-    const user = JSON.parse(localStorage.getItem('SistemaUser'));
+    const user = JSON.parse(localStorage.getItem('userInfo'));
     if (user.type) {
       setLoadingMore(true);
       await listRef

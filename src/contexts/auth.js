@@ -14,7 +14,7 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     function loadStorage() {
-      const storageUser = localStorage.getItem('SistemaUser');
+      const storageUser = localStorage.getItem('userInfo');
 
       if (storageUser) {
         setUser(JSON.parse(storageUser));
@@ -29,12 +29,6 @@ function AuthProvider({ children }) {
     loadStorage();
     loadAllChamados();
   }, []);
-
-  //carregando all chamados
-  // useEffect(() => {
-
-  //   return () => {};
-  // }, []);
 
   async function loadAllChamados() {
     await firebase
@@ -78,14 +72,26 @@ function AuthProvider({ children }) {
   }
 
   //google login
-  useEffect(() => {
+  // useEffect(() => {
+  //   const typeLogin = localStorage.getItem('typeLogin');
+  //   console.log('TypeLogin', typeLogin);
+  //   if (!typeLogin || typeLogin !== 'Default') {
+  //     firebase.auth().onAuthStateChanged(setUser);
+  //   }
+
+  //   setLoading(false);
+  // }, []);
+
+  // teste google login
+  async function handleGoogle() {
     const typeLogin = localStorage.getItem('typeLogin');
+    console.log('TypeLogin', typeLogin);
     if (!typeLogin || typeLogin !== 'Default') {
       firebase.auth().onAuthStateChanged(setUser);
     }
 
     setLoading(false);
-  }, []);
+  }
 
   //user login
   async function signIn(email, password) {
@@ -169,12 +175,12 @@ function AuthProvider({ children }) {
   }
 
   function storageUser(data) {
-    localStorage.setItem('SistemaUser', JSON.stringify(data));
+    localStorage.setItem('userInfo', JSON.stringify(data));
   }
 
   //logout
   async function signOut() {
-    localStorage.removeItem('SistemaUser');
+    localStorage.removeItem('userInfo');
     localStorage.removeItem('typeLogin');
     await firebase.auth().signOut();
     setUser(null);
@@ -193,6 +199,7 @@ function AuthProvider({ children }) {
         setUser,
         storageUser,
         allChamados,
+        handleGoogle,
       }}
     >
       {children}

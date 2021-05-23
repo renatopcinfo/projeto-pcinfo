@@ -14,10 +14,10 @@ export default function Header() {
   //   (user && user.avatarUrl) || user.photoURL
   // );
 
-  localStorage.setItem('SistemaUser', JSON.stringify(user));
+  localStorage.setItem('userInfo', JSON.stringify(user));
 
   //localStorage.setItem('type', 'Default');
-  const userType = JSON.parse(localStorage.getItem('SistemaUser'));
+  const userType = JSON.parse(localStorage.getItem('userInfo'));
 
   return (
     <div className="sidebar">

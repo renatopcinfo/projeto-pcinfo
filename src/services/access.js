@@ -1,15 +1,15 @@
 const isAdmin = () => {
-  const userType = JSON.parse(localStorage.getItem('SistemaUser'));
+  const userType = JSON.parse(localStorage.getItem('userInfo'));
   return userType.type;
 };
 
 const getUserId = () => {
-  const user = JSON.parse(localStorage.getItem('SistemaUser'));
+  const user = JSON.parse(localStorage.getItem('userInfo'));
   return user.uid;
 };
 
 const setUser = (user) => {
-  localStorage.setItem('SistemaUser', JSON.stringify(user));
+  localStorage.setItem('userInfo', JSON.stringify(user));
 };
 
 module.exports = {

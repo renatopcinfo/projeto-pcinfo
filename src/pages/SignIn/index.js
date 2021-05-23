@@ -18,7 +18,8 @@ function SignIn() {
   const [user, setUser] = useState(false);
   const [userLogged, setUserLogged] = useState({});
 
-  const { signIn, loadingAuth, storageUser } = useContext(AuthContext);
+  const { signIn, loadingAuth, storageUser, handleGoogle } =
+    useContext(AuthContext);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -31,7 +32,15 @@ function SignIn() {
   }
 
   const handleGoogleLogin = async (provider) => {
-    // firebase.auth().onAuthStateChanged(setUser);
+    //firebase.auth().onAuthStateChanged(setUser);
+    //localStorage.setItem('typeLogin', 'Default');
+
+    // const typeLogin = localStorage.getItem('userInfo');
+    // console.log('TypeLogin---', typeLogin);
+    // if (typeLogin === false || typeLogin !== 'Default') {
+    //   firebase.auth().onAuthStateChanged(setUser);
+    // }
+    handleGoogle();
     firebase
       .auth()
       .signInWithPopup(provider)
@@ -49,7 +58,6 @@ function SignIn() {
           email: res.user.email,
           avatarUrl: res.user.photoURL ? res.user.photoURL : null,
         };
-        console.log('Data', data);
         await firebase.firestore().collection('users').doc(data.uid).set({
           nome: data.nome,
           avatarUrl: data.avatarUrl,
