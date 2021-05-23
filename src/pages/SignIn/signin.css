@@ -68,6 +68,10 @@ form h1 {
   cursor: pointer;
 }
 
+.btn-password {
+  border: 0;
+}
+
 form button {
   height: 35px;
   border: 0;

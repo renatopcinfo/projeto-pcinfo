@@ -1,6 +1,7 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FaGoogle } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 import { AuthContext } from '../../contexts/auth';
 import firebase from '../../services/firebaseConnection';
@@ -144,6 +145,18 @@ function SignIn() {
         >
           <FaGoogle />
           Fazer login com o Google
+        </button>
+
+        <button
+          className="btn-password"
+          onClick={() =>
+            Swal.fire(
+              'Favor entrar em contato com o administrador do sistema',
+              '(37) 99958-5748 ou renatopcinfo@gmail.com'
+            )
+          }
+        >
+          Esqueceu a senha?
         </button>
 
         <Link to="/register">Criar uma conta</Link>

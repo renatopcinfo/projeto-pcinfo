@@ -142,6 +142,7 @@ export default function Dashboard() {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
       confirmButtonText: 'Sim, deletar!',
     })
       .then((result) => {
