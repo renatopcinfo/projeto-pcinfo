@@ -160,9 +160,9 @@ function AuthProvider({ children }) {
       .catch((error) => {
         console.log(error);
         if (error.code === 'auth/weak-password') {
-          toast.info('Senha deve conter no mínimo 6 caracteres!');
+          toast.error('Senha deve conter no mínimo 6 caracteres!');
         } else if (error.code === 'auth/email-already-in-use') {
-          toast.info('Esse email já existe!');
+          toast.error('Esse email já existe!');
         }
         setLoadingAuth(false);
       });

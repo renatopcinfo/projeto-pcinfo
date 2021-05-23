@@ -2,6 +2,7 @@ import './dashboard.css';
 import { useState, useEffect } from 'react';
 
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 import Header from '../../components/Header';
 import Title from '../../components/Title';
@@ -134,14 +135,25 @@ export default function Dashboard() {
   }
 
   async function handleDelItem(id) {
-    await firebase
-      .firestore()
-      .collection('chamados')
-      .doc(id)
-      .delete()
-      .then(() => {
-        toast.info('Chamado excluído com sucesso!');
+    Swal.fire({
+      title: 'Tem certeza que quer deletar esse chamado?',
+      text: 'Essa ação é irrevesível!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, deletar!',
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire('Deletado!', 'Chamado deletado com sucesso!', 'success');
+          firebase.firestore().collection('chamados').doc(id).delete();
+        }
       })
+      //await firebase.firestore().collection('chamados').doc(id).delete()
+      // .then(() => {
+      //   toast.info('Chamado excluído com sucesso!');
+      // })
       .catch((error) => {
         console.log(error);
         toast.error('Ops, algo deu errado, tente novamente.');
