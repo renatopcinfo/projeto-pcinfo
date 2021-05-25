@@ -35,12 +35,14 @@ export default function Dashboard() {
   const [showPostModal, setShowPostModal] = useState(false);
   const [detail, setDetail] = useState();
 
+  //localStorage.removeItem('userInfo');
+  //JSON.parse(localStorage.getItem('userInfo'));
   useEffect(() => {
+    const userStorage = JSON.parse(localStorage.getItem('userInfo'));
     async function loadChamados() {
-      const user = JSON.parse(localStorage.getItem('userInfo'));
-      console.log(user);
-      if (user.type) {
-        console.log('teste de type', user.type);
+      console.log('userStorage', userStorage);
+      console.log('UserType', userStorage.type);
+      if (userStorage.type) {
         await listRef
           .limit(5)
           .get()
@@ -52,7 +54,7 @@ export default function Dashboard() {
             setLoadingMore(false);
           });
       } else {
-        const id = user.uid;
+        const id = userStorage.uid;
         await listRef
           .limit(5)
           .where('userId', '==', `${id}`)

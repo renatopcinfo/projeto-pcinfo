@@ -85,7 +85,7 @@ function AuthProvider({ children }) {
   // teste google login
   async function handleGoogle() {
     const typeLogin = localStorage.getItem('typeLogin');
-    console.log('TypeLogin', typeLogin);
+    //console.log('TypeLogin', typeLogin);
     if (!typeLogin || typeLogin !== 'Default') {
       firebase.auth().onAuthStateChanged(setUser);
     }

@@ -8,16 +8,18 @@ import { FiHome, FiUser, FiSettings } from 'react-icons/fi';
 import { AiFillPieChart } from 'react-icons/ai';
 
 export default function Header() {
-  const { user } = useContext(AuthContext);
+  const { user  } = useContext(AuthContext);
+  console.log('vendo', user)
 
   // const [avatarUrl, setAvatarUrl] = useState(
   //   (user && user.avatarUrl) || user.photoURL
   // );
 
-  localStorage.setItem('userInfo', JSON.stringify(user));
+  //localStorage.setItem('userInfo', JSON.stringify(user));
 
   //localStorage.setItem('type', 'Default');
-  const userType = JSON.parse(localStorage.getItem('userInfo'));
+  //const userType = JSON.parse(localStorage.getItem('userInfo'));
+  
 
   return (
     <div className="sidebar">
@@ -40,7 +42,7 @@ export default function Header() {
         Clientes
       </Link>
 
-      {userType.type ? (
+      {user.type ? (
         <Link to="/chart">
           <AiFillPieChart color="#FFF" size={24} />
           Gráfico

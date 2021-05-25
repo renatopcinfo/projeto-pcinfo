@@ -10,7 +10,6 @@ import logo from '../../assets/logo.png';
 import { googleprovider } from '../../services/authMethods';
 import googleAuth from '../../services/googleAuth';
 import { toast } from 'react-toastify';
-import SignUp from '../SignUp';
 
 function SignIn() {
   const [email, setEmail] = useState('');
@@ -49,15 +48,16 @@ function SignIn() {
         //console.log('Value', uid);
         //console.log('retorno google login', res.user);
         //toast().success('logado');
-        //console.log('resposta google', res);
-        //return res.user;
-        //procurar se está cadastrado e carregar
+        console.log('resposta google', res.user);
+       
         let data = {
           uid: res.user.uid,
           nome: res.user.displayName,
           email: res.user.email,
           avatarUrl: res.user.photoURL ? res.user.photoURL : null,
+          type: res.user.gb,
         };
+        
         await firebase.firestore().collection('users').doc(data.uid).set({
           nome: data.nome,
           avatarUrl: data.avatarUrl,
