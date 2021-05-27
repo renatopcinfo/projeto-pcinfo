@@ -40,7 +40,7 @@ export default function Dashboard() {
   useEffect(() => {
     const userStorage = JSON.parse(localStorage.getItem('userInfo'));
     async function loadChamados() {
-      console.log('userStorage', userStorage);
+      console.log('userStorageTeste', userStorage);
       console.log('UserType', userStorage.type);
       if (userStorage.type) {
         await listRef

@@ -95,7 +95,7 @@ export default function Profile() {
             ...user,
             nome: nome,
           };
-          console.log('ttttttSave', data);
+          console.log('SaveData', data);
           setUser(data);
           storageUser(data);
           toast.success('Informações atualizadas com sucesso!');

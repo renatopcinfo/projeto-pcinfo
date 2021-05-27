@@ -9,7 +9,7 @@ import { AiFillPieChart } from 'react-icons/ai';
 
 export default function Header() {
   const { user  } = useContext(AuthContext);
-  console.log('vendo', user)
+  //console.log('UserType', user.type)
 
   // const [avatarUrl, setAvatarUrl] = useState(
   //   (user && user.avatarUrl) || user.photoURL

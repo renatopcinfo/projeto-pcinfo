@@ -82,7 +82,7 @@ function AuthProvider({ children }) {
   //   setLoading(false);
   // }, []);
 
-  // teste google login
+  //  google login
   async function handleGoogle() {
     const typeLogin = localStorage.getItem('typeLogin');
     //console.log('TypeLogin', typeLogin);

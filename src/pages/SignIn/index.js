@@ -48,31 +48,33 @@ function SignIn() {
         //console.log('Value', uid);
         //console.log('retorno google login', res.user);
         //toast().success('logado');
-        console.log('resposta google', res.user);
+        //console.log('resposta google', res.user);
        
         let data = {
           uid: res.user.uid,
           nome: res.user.displayName,
           email: res.user.email,
           avatarUrl: res.user.photoURL ? res.user.photoURL : null,
-          type: res.user.gb,
+          //type: null,
         };
+
+        storageUser(data);
         
         await firebase.firestore().collection('users').doc(data.uid).set({
           nome: data.nome,
           avatarUrl: data.avatarUrl,
         });
-
+        
         // if (!userProfile) {
         //   //insert
         //   SignUp(data);
         // } else {
         //   //update
         // }
-
         localStorage.removeItem('typeLogin');
         setUser(data);
-        storageUser(data);
+        //console.log('Data User',data)
+        //storageUser(data);
       })
       .catch((err) => {
         return err;
