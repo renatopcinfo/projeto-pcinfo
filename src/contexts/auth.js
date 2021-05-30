@@ -70,29 +70,6 @@ function AuthProvider({ children }) {
       setEmpty(true);
     }
   }
-
-  //google login
-  // useEffect(() => {
-  //   const typeLogin = localStorage.getItem('typeLogin');
-  //   console.log('TypeLogin', typeLogin);
-  //   if (!typeLogin || typeLogin !== 'Default') {
-  //     firebase.auth().onAuthStateChanged(setUser);
-  //   }
-
-  //   setLoading(false);
-  // }, []);
-
-  //  google login
-  async function handleGoogle() {
-    const typeLogin = localStorage.getItem('typeLogin');
-    //console.log('TypeLogin', typeLogin);
-    if (!typeLogin || typeLogin !== 'Default') {
-      firebase.auth().onAuthStateChanged(setUser);
-    }
-
-    setLoading(false);
-  }
-
   //user login
   async function signIn(email, password) {
     setLoadingAuth(true);
@@ -129,6 +106,42 @@ function AuthProvider({ children }) {
         setLoadingAuth(false);
       });
   }
+
+  ///fazendo testes
+  const handleGoogleLogin = async (provider) => {
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(async (res) => {
+        let data = {
+          uid: res.user.uid,
+          nome: res.user.displayName,
+          email: res.user.email,
+          avatarUrl: res.user.photoURL ? res.user.photoURL : null,
+        };
+
+        if (!data) {
+          //insert
+          await firebase.firestore().collection('users').doc(data.uid).set({
+            nome: data.nome,
+            avatarUrl: data.avatarUrl,
+          });
+        } else {
+          await firebase.firestore().collection('users').doc(data.uid).update({
+            nome: data.nome,
+            avatarUrl: data.avatarUrl,
+          });
+        }
+        localStorage.removeItem('typeLogin');
+        setUser(data);
+        storageUser(data);
+        //console.log('Data User',data)
+      })
+      .catch((err) => {
+        console.log('Ops, algo deu errado!', err);
+        return err;
+      });
+  };
 
   //create user
   async function signUp(email, password, nome) {
@@ -199,7 +212,7 @@ function AuthProvider({ children }) {
         setUser,
         storageUser,
         allChamados,
-        handleGoogle,
+        handleGoogleLogin,
       }}
     >
       {children}

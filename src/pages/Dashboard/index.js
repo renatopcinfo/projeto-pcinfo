@@ -36,7 +36,7 @@ export default function Dashboard() {
   const [detail, setDetail] = useState();
 
   //localStorage.removeItem('userInfo');
-  //JSON.parse(localStorage.getItem('userInfo'));
+  //JSON.parse(localStorage.setItem('userInfo'));
   useEffect(() => {
     const userStorage = JSON.parse(localStorage.getItem('userInfo'));
     async function loadChamados() {

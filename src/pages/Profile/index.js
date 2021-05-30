@@ -71,7 +71,7 @@ export default function Profile() {
                   avatarUrl: urlFoto,
                   nome: nome,
                 };
-                console.log('tttttttttttttttttt', data);
+                //console.log('Upload', data);
                 setUser(data);
                 storageUser(data);
               });
@@ -81,6 +81,7 @@ export default function Profile() {
 
   async function handleSave(e) {
     e.preventDefault();
+    console.log('UserProfile',user);
 
     if (imageAvatar === null && nome !== '') {
       await firebase
@@ -100,8 +101,9 @@ export default function Profile() {
           storageUser(data);
           toast.success('Informações atualizadas com sucesso!');
         })
-        .catch(() => {
-          toast.error('Ops algo deu errado!');
+        .catch((err) => {
+          console.log('Algo deu errado',err);
+          toast.error('Ops, algo deu errado!');
         });
     } else if (nome !== '' && imageAvatar !== null) {
       handleUpload();

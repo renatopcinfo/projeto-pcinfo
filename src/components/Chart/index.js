@@ -28,6 +28,8 @@ export default function DataChart() {
       case 'Atendido':
         totais.Atendido++;
         break;
+      // default:
+      //   break;
     }
   });
 

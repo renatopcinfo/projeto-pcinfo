@@ -17,8 +17,7 @@ function SignIn() {
   const [user, setUser] = useState(false);
   const [userLogged, setUserLogged] = useState({});
 
-  const { signIn, loadingAuth, storageUser, handleGoogle } =
-    useContext(AuthContext);
+  const { signIn, loadingAuth, handleGoogleLogin } = useContext(AuthContext);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -30,61 +29,59 @@ function SignIn() {
     }
   }
 
-  const handleGoogleLogin = async (provider) => {
-    //firebase.auth().onAuthStateChanged(setUser);
-    //localStorage.setItem('typeLogin', 'Default');
+  // const handleGoogleLogin = async (provider) => {
+  //   //firebase.auth().onAuthStateChanged(setUser);
+  //   //localStorage.setItem('typeLogin', 'Default');
 
-    // const typeLogin = localStorage.getItem('userInfo');
-    // console.log('TypeLogin---', typeLogin);
-    // if (typeLogin === false || typeLogin !== 'Default') {
-    //   firebase.auth().onAuthStateChanged(setUser);
-    // }
-    handleGoogle();
-    firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then(async (res) => {
-        //let uid = value.user.uid;
-        //console.log('Value', uid);
-        //console.log('retorno google login', res.user);
-        //toast().success('logado');
-        //console.log('resposta google', res.user);
-       
-        let data = {
-          uid: res.user.uid,
-          nome: res.user.displayName,
-          email: res.user.email,
-          avatarUrl: res.user.photoURL ? res.user.photoURL : null,
-          //type: null,
-        };
+  //   // const typeLogin = localStorage.getItem('userInfo');
+  //   // console.log('TypeLogin---', typeLogin);
+  //   // if (typeLogin === false || typeLogin !== 'Default') {
+  //   //   firebase.auth().onAuthStateChanged(setUser);
+  //   // }
+  //   handleGoogle();
+  //   firebase
+  //     .auth()
+  //     .signInWithPopup(provider)
+  //     .then(async (res) => {
+  //       //let uid = value.user.uid;
+  //       //console.log('Value', uid);
+  //       //console.log('retorno google login', res.user);
+  //       //toast().success('logado');
+  //       //console.log('resposta google', res.user);
 
-        storageUser(data);
-        
-        await firebase.firestore().collection('users').doc(data.uid).set({
-          nome: data.nome,
-          avatarUrl: data.avatarUrl,
-        });
-        
-        // if (!userProfile) {
-        //   //insert
-        //   SignUp(data);
-        // } else {
-        //   //update
-        // }
-        localStorage.removeItem('typeLogin');
-        setUser(data);
-        //console.log('Data User',data)
-        //storageUser(data);
-      })
-      .catch((err) => {
-        return err;
-      });
-    //signUp();
-    // await firebase.firestore().collection('users').set({
-    //   nome: nome,
-    //   avatarUrl: null,
-    // });
-  };
+  //       let data = {
+  //         uid: res.user.uid,
+  //         nome: res.user.displayName,
+  //         email: res.user.email,
+  //         avatarUrl: res.user.photoURL ? res.user.photoURL : null,
+  //       };
+  //      //storageUser(data);
+  //       await firebase.firestore().collection('users').doc(data.uid).set({
+  //         nome: data.nome,
+  //         avatarUrl: data.avatarUrl,
+  //       });
+
+  //       // if (!userProfile) {
+  //       //   //insert
+  //       //   SignUp(data);
+  //       // } else {
+  //       //   //update
+  //       // }
+  //       localStorage.removeItem('typeLogin');
+  //       setUser(data);
+  //       storageUser(data);
+  //       //console.log('Data User',data)
+  //     })
+  //     .catch((err) => {
+  //       console.log('Ops, algo deu errado!',err);
+  //       return err;
+  //     });
+  //   //signUp();
+  //   // await firebase.firestore().collection('users').set({
+  //   //   nome: nome,
+  //   //   avatarUrl: null,
+  //   // });
+  // };
 
   // async function handleLogout() {
   //   await firebase.auth().signOut();
