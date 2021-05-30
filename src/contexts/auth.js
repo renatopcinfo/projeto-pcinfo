@@ -113,6 +113,7 @@ function AuthProvider({ children }) {
       .auth()
       .signInWithPopup(provider)
       .then(async (res) => {
+        //return console.log('google', res);
         let data = {
           uid: res.user.uid,
           nome: res.user.displayName,
@@ -120,14 +121,34 @@ function AuthProvider({ children }) {
           avatarUrl: res.user.photoURL ? res.user.photoURL : null,
         };
 
-        await firebase.firestore().collection('users').doc(data.uid).set({
-          nome: data.nome,
-          avatarUrl: data.avatarUrl,
-        });
+        if (data) {
+          console.log('passei aqui');
+          let uid = res.user.uid;
+          const userProfile = await firebase
+            .firestore()
+            .collection('users')
+            .doc(uid)
+            .get();
 
-        localStorage.removeItem('typeLogin');
-        setUser(data);
-        storageUser(data);
+          let dataExist = {
+            uid: uid,
+            nome: userProfile.data().nome,
+            avatarUrl: userProfile.data().avatarUrl,
+            email: res.user.email,
+          };
+
+          localStorage.removeItem('typeLogin');
+          setUser(dataExist);
+          storageUser(dataExist);
+        } else {
+          await firebase.firestore().collection('users').doc(data.uid).set({
+            nome: data.nome,
+            avatarUrl: data.avatarUrl,
+          });
+          localStorage.removeItem('typeLogin');
+          setUser(data);
+          storageUser(data);
+        }
       })
       .catch((err) => {
         console.log('Ops, algo deu errado!', err);

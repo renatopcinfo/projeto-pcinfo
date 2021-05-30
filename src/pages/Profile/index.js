@@ -81,7 +81,6 @@ export default function Profile() {
 
   async function handleSave(e) {
     e.preventDefault();
-    console.log('UserProfile',user);
 
     if (imageAvatar === null && nome !== '') {
       await firebase
@@ -102,7 +101,7 @@ export default function Profile() {
           toast.success('Informações atualizadas com sucesso!');
         })
         .catch((err) => {
-          console.log('Algo deu errado',err);
+          console.log('Algo deu errado', err);
           toast.error('Ops, algo deu errado!');
         });
     } else if (nome !== '' && imageAvatar !== null) {
