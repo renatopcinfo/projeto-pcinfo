@@ -109,11 +109,11 @@ function AuthProvider({ children }) {
 
   // Google login
   const handleGoogleLogin = async (provider) => {
-    firebase
+    await firebase
       .auth()
       .signInWithPopup(provider)
       .then(async (res) => {
-        //return console.log('google', res);
+        //return console.log('google', res.user);
         let data = {
           uid: res.user.uid,
           nome: res.user.displayName,
@@ -121,7 +121,7 @@ function AuthProvider({ children }) {
           avatarUrl: res.user.photoURL ? res.user.photoURL : null,
         };
 
-        if (data) {
+        if (data.nome !== '') {
           console.log('passei aqui');
           let uid = res.user.uid;
           const userProfile = await firebase
@@ -141,6 +141,7 @@ function AuthProvider({ children }) {
           setUser(dataExist);
           storageUser(dataExist);
         } else {
+          console.log('passei pra criar');
           await firebase.firestore().collection('users').doc(data.uid).set({
             nome: data.nome,
             avatarUrl: data.avatarUrl,
