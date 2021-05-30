@@ -107,7 +107,7 @@ function AuthProvider({ children }) {
       });
   }
 
-  ///fazendo testes
+  // Google login
   const handleGoogleLogin = async (provider) => {
     firebase
       .auth()
@@ -120,22 +120,14 @@ function AuthProvider({ children }) {
           avatarUrl: res.user.photoURL ? res.user.photoURL : null,
         };
 
-        if (!data) {
-          //insert
-          await firebase.firestore().collection('users').doc(data.uid).set({
-            nome: data.nome,
-            avatarUrl: data.avatarUrl,
-          });
-        } else {
-          await firebase.firestore().collection('users').doc(data.uid).update({
-            nome: data.nome,
-            avatarUrl: data.avatarUrl,
-          });
-        }
+        await firebase.firestore().collection('users').doc(data.uid).set({
+          nome: data.nome,
+          avatarUrl: data.avatarUrl,
+        });
+
         localStorage.removeItem('typeLogin');
         setUser(data);
         storageUser(data);
-        //console.log('Data User',data)
       })
       .catch((err) => {
         console.log('Ops, algo deu errado!', err);

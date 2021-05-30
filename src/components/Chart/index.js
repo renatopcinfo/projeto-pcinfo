@@ -9,6 +9,7 @@ import { AuthContext } from '../../contexts/auth';
 
 export default function DataChart() {
   const { allChamados } = useContext(AuthContext);
+  //console.log(allChamados);
 
   //data chart
   let totais = {
@@ -28,8 +29,6 @@ export default function DataChart() {
       case 'Atendido':
         totais.Atendido++;
         break;
-      // default:
-      //   break;
     }
   });
 
