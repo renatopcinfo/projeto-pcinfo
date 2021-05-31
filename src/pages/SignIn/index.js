@@ -70,19 +70,7 @@ function SignIn() {
         >
           <FaGoogle />
           Fazer login com o Google
-        </button>
-
-        <button
-          className="btn-password"
-          onClick={() =>
-            Swal.fire(
-              'Favor entrar em contato com o administrador do sistema',
-              '(37) 99958-5748 ou renatopcinfo@gmail.com'
-            )
-          }
-        >
-          Esqueceu a senha?
-        </button>
+        </button>        
 
         <Link to="/register">Criar uma conta</Link>
       </div>

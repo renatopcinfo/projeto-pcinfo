@@ -146,6 +146,10 @@ export default function Dashboard() {
         if (result.isConfirmed) {
           Swal.fire('Deletado!', 'Chamado deletado com sucesso!', 'success');
           firebase.firestore().collection('chamados').doc(id).delete();
+          const updateDel = chamados.filter((el) => {
+            return el.id !== id;
+          });
+          setChamados(updateDel);
         }
       })
 

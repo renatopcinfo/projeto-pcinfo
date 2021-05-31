@@ -39,6 +39,7 @@ function AuthProvider({ children }) {
       .then((snapshot) => {
         updateStateAll(snapshot);
       })
+
       .catch((err) => {
         console.log('Deu algum erro: ', err);
       });
