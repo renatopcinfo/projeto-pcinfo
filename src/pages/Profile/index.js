@@ -63,15 +63,11 @@ export default function Profile() {
                 nome: nome,
               })
               .then(() => {
-                //let data = user;
-                //data.avatarUrl = urlFoto;
-                //data.nome = nome;
                 let data = {
                   ...user,
                   avatarUrl: urlFoto,
                   nome: nome,
                 };
-                //console.log('Upload', data);
                 setUser(data);
                 storageUser(data);
               });
@@ -95,7 +91,6 @@ export default function Profile() {
             ...user,
             nome: nome,
           };
-          console.log('SaveData', data);
           setUser(data);
           storageUser(data);
           toast.success('Informações atualizadas com sucesso!');

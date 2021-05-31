@@ -4,11 +4,9 @@ import { FaGoogle } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 
 import { AuthContext } from '../../contexts/auth';
-import firebase from '../../services/firebaseConnection';
 import './signin.css';
 import logo from '../../assets/logo.png';
 import { googleprovider } from '../../services/authMethods';
-import googleAuth from '../../services/googleAuth';
 import { toast } from 'react-toastify';
 
 function SignIn() {
@@ -28,86 +26,6 @@ function SignIn() {
       toast.error('Informe e-mail e senha!');
     }
   }
-
-  // const handleGoogleLogin = async (provider) => {
-  //   //firebase.auth().onAuthStateChanged(setUser);
-  //   //localStorage.setItem('typeLogin', 'Default');
-
-  //   // const typeLogin = localStorage.getItem('userInfo');
-  //   // console.log('TypeLogin---', typeLogin);
-  //   // if (typeLogin === false || typeLogin !== 'Default') {
-  //   //   firebase.auth().onAuthStateChanged(setUser);
-  //   // }
-  //   handleGoogle();
-  //   firebase
-  //     .auth()
-  //     .signInWithPopup(provider)
-  //     .then(async (res) => {
-  //       //let uid = value.user.uid;
-  //       //console.log('Value', uid);
-  //       //console.log('retorno google login', res.user);
-  //       //toast().success('logado');
-  //       //console.log('resposta google', res.user);
-
-  //       let data = {
-  //         uid: res.user.uid,
-  //         nome: res.user.displayName,
-  //         email: res.user.email,
-  //         avatarUrl: res.user.photoURL ? res.user.photoURL : null,
-  //       };
-  //      //storageUser(data);
-  //       await firebase.firestore().collection('users').doc(data.uid).set({
-  //         nome: data.nome,
-  //         avatarUrl: data.avatarUrl,
-  //       });
-
-  //       // if (!userProfile) {
-  //       //   //insert
-  //       //   SignUp(data);
-  //       // } else {
-  //       //   //update
-  //       // }
-  //       localStorage.removeItem('typeLogin');
-  //       setUser(data);
-  //       storageUser(data);
-  //       //console.log('Data User',data)
-  //     })
-  //     .catch((err) => {
-  //       console.log('Ops, algo deu errado!',err);
-  //       return err;
-  //     });
-  //   //signUp();
-  //   // await firebase.firestore().collection('users').set({
-  //   //   nome: nome,
-  //   //   avatarUrl: null,
-  //   // });
-  // };
-
-  // async function handleLogout() {
-  //   await firebase.auth().signOut();
-  // }
-
-  // useEffect(() => {
-  //   async function checkLogin() {
-  //     await firebase.auth().onAuthStateChanged((user) => {
-  //       if (user) {
-  //         setUser(true);
-  //         setUserLogged({
-  //           uid: user.uid,
-  //           email: user.email,
-  //           type: user.type,
-  //         });
-  //         //se tem usuario logado entra aqui dentro...
-  //       } else {
-  //         //nao possui nenhum user logado.
-  //         setUser(false);
-  //         setUserLogged({});
-  //       }
-  //     });
-  //   }
-
-  //   checkLogin();
-  // }, []);
 
   return (
     <div className="container-center">
@@ -168,11 +86,6 @@ function SignIn() {
 
         <Link to="/register">Criar uma conta</Link>
       </div>
-
-      {/* <button onClick={handleLogout}>
-        <FaGoogle />
-        Sair
-      </button> */}
     </div>
   );
 }

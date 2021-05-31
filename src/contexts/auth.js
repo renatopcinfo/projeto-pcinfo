@@ -113,7 +113,6 @@ function AuthProvider({ children }) {
       .auth()
       .signInWithPopup(provider)
       .then(async (res) => {
-        //return console.log('google', res.user);
         let data = {
           uid: res.user.uid,
           nome: res.user.displayName,
@@ -121,35 +120,34 @@ function AuthProvider({ children }) {
           avatarUrl: res.user.photoURL ? res.user.photoURL : null,
         };
 
-        if (data.nome !== '') {
-          console.log('passei aqui');
-          let uid = res.user.uid;
-          const userProfile = await firebase
-            .firestore()
-            .collection('users')
-            .doc(uid)
-            .get();
+        const existId = firebase.firestore();
+        let uid = res.user.uid;
+        existId
+          .collection('users')
+          .doc(uid)
+          .get()
+          .then((snapshot) => {
+            if (snapshot.exists) {
+              let dataExist = {
+                uid: uid,
+                nome: snapshot.data().nome,
+                avatarUrl: snapshot.data().avatarUrl,
+                email: res.user.email,
+              };
 
-          let dataExist = {
-            uid: uid,
-            nome: userProfile.data().nome,
-            avatarUrl: userProfile.data().avatarUrl,
-            email: res.user.email,
-          };
-
-          localStorage.removeItem('typeLogin');
-          setUser(dataExist);
-          storageUser(dataExist);
-        } else {
-          console.log('passei pra criar');
-          await firebase.firestore().collection('users').doc(data.uid).set({
-            nome: data.nome,
-            avatarUrl: data.avatarUrl,
+              localStorage.removeItem('typeLogin');
+              setUser(dataExist);
+              storageUser(dataExist);
+            } else {
+              firebase.firestore().collection('users').doc(data.uid).set({
+                nome: data.nome,
+                avatarUrl: data.avatarUrl,
+              });
+              localStorage.removeItem('typeLogin');
+              setUser(data);
+              storageUser(data);
+            }
           });
-          localStorage.removeItem('typeLogin');
-          setUser(data);
-          storageUser(data);
-        }
       })
       .catch((err) => {
         console.log('Ops, algo deu errado!', err);

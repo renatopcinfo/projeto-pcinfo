@@ -32,9 +32,6 @@ export class Print {
         fontSize: 5,
         colSpan: 4,
       },
-      //{},
-      //{},
-      //{},
     ];
 
     let content = [header, lineHeader];

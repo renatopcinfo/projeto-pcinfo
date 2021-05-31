@@ -8,18 +8,7 @@ import { FiHome, FiUser, FiSettings } from 'react-icons/fi';
 import { AiFillPieChart } from 'react-icons/ai';
 
 export default function Header() {
-  const { user  } = useContext(AuthContext);
-  //console.log('UserType', user.type)
-
-  // const [avatarUrl, setAvatarUrl] = useState(
-  //   (user && user.avatarUrl) || user.photoURL
-  // );
-
-  //localStorage.setItem('userInfo', JSON.stringify(user));
-
-  //localStorage.setItem('type', 'Default');
-  //const userType = JSON.parse(localStorage.getItem('userInfo'));
-  
+  const { user } = useContext(AuthContext);
 
   return (
     <div className="sidebar">

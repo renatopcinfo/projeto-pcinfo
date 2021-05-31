@@ -35,13 +35,9 @@ export default function Dashboard() {
   const [showPostModal, setShowPostModal] = useState(false);
   const [detail, setDetail] = useState();
 
-  //localStorage.removeItem('userInfo');
-  //JSON.parse(localStorage.setItem('userInfo'));
   useEffect(() => {
     const userStorage = JSON.parse(localStorage.getItem('userInfo'));
     async function loadChamados() {
-      console.log('userStorageTeste', userStorage);
-      console.log('UserType', userStorage.type);
       if (userStorage.type) {
         await listRef
           .limit(5)
@@ -152,10 +148,7 @@ export default function Dashboard() {
           firebase.firestore().collection('chamados').doc(id).delete();
         }
       })
-      //await firebase.firestore().collection('chamados').doc(id).delete()
-      // .then(() => {
-      //   toast.info('Chamado excluído com sucesso!');
-      // })
+
       .catch((error) => {
         console.log(error);
         toast.error('Ops, algo deu errado, tente novamente.');
