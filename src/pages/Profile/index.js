@@ -122,7 +122,7 @@ export default function Profile() {
 
               <input type="file" accept="image/*" onChange={handleFile} />
               <br />
-              {avatarUrl === null ? (
+              {avatarUrl === null || avatarUrl === undefined ? (
                 <img
                   src={avatar}
                   width="250"
