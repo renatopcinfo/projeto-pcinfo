@@ -8,6 +8,7 @@ import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/Profile';
 import Customers from '../pages/Customers';
 import New from '../pages/New';
+import Edit from '../pages/Edit';
 import Chart from '../components/Chart';
 
 export default function Routes() {
@@ -21,6 +22,8 @@ export default function Routes() {
       <Route exact path="/customers" component={Customers} isPrivate />
       <Route exact path="/new" component={New} isPrivate />
       <Route exact path="/new/:id" component={New} isPrivate />
+      <Route exact path="/edit" component={Edit} isPrivate />
+      <Route exact path="/edit/:id" component={Edit} isPrivate />
       <Route exact path="/chart" component={Chart} isPrivate />
     </Switch>
   );

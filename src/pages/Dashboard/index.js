@@ -249,7 +249,7 @@ export default function Dashboard() {
                         <Link
                           className="action"
                           style={{ backgroundColor: '#F6a935' }}
-                          to={`/new/${item.id}`}
+                          to={`/edit/${item.id}`}
                         >
                           <FiEdit2 color="#FFF" size={17} />
                         </Link>

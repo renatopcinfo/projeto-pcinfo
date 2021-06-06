@@ -1,7 +1,6 @@
 import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FaGoogle } from 'react-icons/fa';
-import Swal from 'sweetalert2';
 
 import { AuthContext } from '../../contexts/auth';
 import './signin.css';

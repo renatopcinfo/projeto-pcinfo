@@ -8,10 +8,9 @@ import Header from '../../components/Header';
 import Title from '../../components/Title';
 import { AuthContext } from '../../contexts/auth';
 
-import './new.css';
 import { FiPlusCircle } from 'react-icons/fi';
 
-export default function New() {
+export default function Edit() {
   const { id } = useParams();
   const history = useHistory();
 
@@ -42,6 +41,7 @@ export default function New() {
               nomeFantasia: doc.data().nomeFantasia,
             });
           });
+          console.log(lista);
 
           if (lista.length === 0) {
             console.log('NENHUMA EMPRESA ENCONTRADA');
@@ -91,7 +91,7 @@ export default function New() {
       });
   }
 
-  async function handleRegister(e) {
+  async function handleEdit(e) {
     e.preventDefault();
 
     if (idCustomer) {
@@ -120,28 +120,6 @@ export default function New() {
 
       return;
     }
-
-    await firebase
-      .firestore()
-      .collection('chamados')
-      .add({
-        created: new Date(),
-        cliente: customers[customerSelected].nomeFantasia,
-        clienteId: customers[customerSelected].id,
-        assunto: assunto,
-        status: status,
-        complemento: complemento,
-        userId: user.uid,
-      })
-      .then(() => {
-        toast.success('Chamado criado com sucesso!');
-        setComplemento('');
-        setCustomerSelected(0);
-      })
-      .catch((err) => {
-        toast.error('Ops! Erro ao registrar, tente novamente.');
-        console.log(err);
-      });
   }
 
   //Change assunto
@@ -164,22 +142,30 @@ export default function New() {
       <Header />
 
       <div className="content">
-        <Title name="Novo chamado">
+        <Title name="Editar chamado">
           <FiPlusCircle size={25} />
         </Title>
 
         <div className="container">
-          <form className="form-profile" onSubmit={handleRegister}>
+          <form className="form-profile" onSubmit={handleEdit}>
             <label>Cliente</label>
 
-            {loadCustomers ? (
-              <input
-                type="text"
-                disabled={true}
-                value="Carregando clientes..."
-              />
-            ) : (
+            {user.type ? (
               <select value={customerSelected} onChange={handleChangeCustomers}>
+                {customers.map((item, index) => {
+                  return (
+                    <option key={item.id} value={index}>
+                      {item.nomeFantasia}
+                    </option>
+                  );
+                })}
+              </select>
+            ) : (
+              <select
+                value={customerSelected}
+                onChange={handleChangeCustomers}
+                disabled={true}
+              >
                 {customers.map((item, index) => {
                   return (
                     <option key={item.id} value={index}>
@@ -235,7 +221,7 @@ export default function New() {
               onChange={(e) => setComplemento(e.target.value)}
             />
 
-            <button type="submit">Registrar</button>
+            <button type="submit">Editar</button>
           </form>
         </div>
       </div>
