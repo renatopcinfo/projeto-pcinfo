@@ -41,7 +41,6 @@ export default function Edit() {
               nomeFantasia: doc.data().nomeFantasia,
             });
           });
-          console.log(lista);
 
           if (lista.length === 0) {
             console.log('NENHUMA EMPRESA ENCONTRADA');

@@ -1,14 +1,61 @@
-import { useContext } from 'react';
+import { useEffect, useState } from 'react';
 
 import Header from '../../components/Header';
 import Title from '../../components/Title';
 import { Chart } from 'react-google-charts';
 import { AiFillPieChart } from 'react-icons/ai';
 
-import { AuthContext } from '../../contexts/auth';
+import firebase from '../../services/firebaseConnection';
 
 export default function DataChart() {
-  const { allChamados } = useContext(AuthContext);
+  const [allChamados, setAllChamados] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [empty, setEmpty] = useState(false);
+
+  useEffect(() => {
+    loadAllChamados();
+  }, []);
+
+  async function loadAllChamados() {
+    await firebase
+      .firestore()
+      .collection('chamados')
+      .orderBy('created', 'desc')
+      .get()
+      .then((snapshot) => {
+        updateStateAll(snapshot);
+      })
+
+      .catch((err) => {
+        console.log('Deu algum erro: ', err);
+      });
+
+    setLoading(false);
+  }
+
+  //format data chamados
+  async function updateStateAll(snapshot) {
+    const isCollectionEmpty = snapshot.size === 0;
+
+    if (!isCollectionEmpty) {
+      let lista = [];
+
+      snapshot.forEach((doc) => {
+        lista.push({
+          id: doc.id,
+          assunto: doc.data().assunto,
+          cliente: doc.data().cliente,
+          clienteId: doc.data().clienteId,
+          created: doc.data().created,
+          status: doc.data().status,
+          complemento: doc.data().complemento,
+        });
+      });
+      setAllChamados((allChamados) => [...allChamados, ...lista]);
+    } else {
+      setEmpty(true);
+    }
+  }
 
   //data chart
   let totais = {
