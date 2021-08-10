@@ -94,6 +94,7 @@ function AuthProvider({ children }) {
               localStorage.removeItem('typeLogin');
               setUser(dataExist);
               storageUser(dataExist);
+              toast.success('Bem vindo de volta!');
             } else {
               firebase.firestore().collection('users').doc(data.uid).set({
                 nome: data.nome,
